@@ -1,5 +1,5 @@
 <div class="mb-4 space-y-1 avoid-break">
-    <h1 class="text-2xl">{{ $title }}</h1>
+    <h1 class="text-3xl uppercase sm:text-4xl">{{ $title }}</h1>
     <p class="text-sm text-muted">{{ $event->name }} {{ $event->year }} &middot; Generated {{ $generatedAt->inShowTz()->format('M j, Y g:i A') }} &middot; Results: {{ $status }}</p>
 </div>
 @unless ($print)

@@ -37,7 +37,7 @@
     <form method="POST" action="{{ route('admin.paper.preview', $participant) }}" class="card mt-5 p-5">
         @csrf
         <label for="car_numbers" class="field-label">Car numbers written on the ballot</label>
-        <input id="car_numbers" name="car_numbers" value="{{ $input }}" class="field font-display text-2xl tracking-wide" autofocus autocomplete="off" inputmode="numeric"
+        <input id="car_numbers" name="car_numbers" value="{{ $input }}" class="field font-display text-2xl tracking-wide" @unless ($preview && $preview['valid']) autofocus @endunless autocomplete="off" inputmode="numeric"
                placeholder="12 7 31 4" aria-describedby="car-numbers-help">
         <p id="car-numbers-help" class="mt-1 text-sm text-muted">Separate with spaces or commas, then press Enter to check. Nothing is saved until you confirm.</p>
         @error('car_numbers')<p class="field-error">{{ $message }}</p>@enderror

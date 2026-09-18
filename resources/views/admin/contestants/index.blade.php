@@ -35,7 +35,7 @@
                     $used = $participant->votes_count;
                 @endphp
                 <tr>
-                    <td>{{ $participant->voter_number ?? '—' }}</td>
+                    <td>{{ $participant->voter_number ?? 'Not set' }}</td>
                     <td><a href="{{ route('admin.contestants.show', $participant) }}" class="font-semibold underline">{{ $participant->user->name }}</a></td>
                     <td>
                         <div class="flex flex-wrap gap-1">

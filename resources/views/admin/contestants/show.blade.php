@@ -18,9 +18,9 @@
     <section class="card p-4">
         <h2 class="text-2xl uppercase">Contact</h2>
         <dl class="mt-2 grid grid-cols-[auto_1fr] gap-x-3 gap-y-1 text-sm">
-            <dt class="text-muted">Phone</dt><dd>{{ $participant->user->phone ?? '—' }}</dd>
-            <dt class="text-muted">Email</dt><dd>{{ $participant->user->email ?? '—' }}</dd>
-            <dt class="text-muted">Address</dt><dd>{{ trim(collect([$participant->user->address, $participant->user->city, $participant->user->state, $participant->user->zip])->filter()->implode(', ')) ?: '—' }}</dd>
+            <dt class="text-muted">Phone</dt><dd>{{ $participant->user->phone ?? 'Not given' }}</dd>
+            <dt class="text-muted">Email</dt><dd>{{ $participant->user->email ?? 'Not given' }}</dd>
+            <dt class="text-muted">Address</dt><dd>{{ trim(collect([$participant->user->address, $participant->user->city, $participant->user->state, $participant->user->zip])->filter()->implode(', ')) ?: 'Not given' }}</dd>
         </dl>
     </section>
 

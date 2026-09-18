@@ -92,6 +92,8 @@ To clear votes from the test event and start over (local only, asks you to type 
 
 ```bash
 $PHP artisan app:reset-test-event
+# or without the prompt:
+$PHP artisan app:reset-test-event --confirm="Secret Santa Car Show 2025 Test Show"
 ```
 
 Production starts from classes and a clean event created on the Admin Event page. Do not import the 2025 contacts into production.

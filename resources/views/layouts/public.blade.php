@@ -18,7 +18,7 @@
                     <img src="{{ asset('images/secret-santa-car-show-logo.webp') }}" alt="Secret Santa Car Show logo" width="382" height="410" class="h-12 w-auto sm:h-14">
                 </span>
                 <span class="min-w-0">
-                    <span class="block truncate font-display text-xl font-bold uppercase leading-tight tracking-wide sm:text-2xl">{{ $event?->name ?? 'Secret Santa Car Show' }}</span>
+                    <span class="line-clamp-2 block font-display text-lg font-bold uppercase leading-tight tracking-wide sm:truncate sm:text-2xl">{{ $event?->name ?? 'Secret Santa Car Show' }}</span>
                     @if ($event)
                         <span class="block truncate text-sm text-white/75">{{ $event->location ?? 'Oakwood, Georgia' }}@if ($event->show_date) &middot; {{ $event->show_date->format('F j, Y') }}@endif</span>
                     @endif
@@ -32,7 +32,7 @@
                         <a href="{{ route('ballot.index') }}" class="btn btn-sm btn-primary">My ballot</a>
                     @endif
                 @else
-                    <a href="{{ route('login') }}" class="btn btn-sm btn-primary">Contestant sign in</a>
+                    <a href="{{ route('login') }}" class="btn btn-sm btn-primary"><span class="sm:hidden">Sign in</span><span class="hidden sm:inline">Contestant sign in</span></a>
                 @endauth
             </nav>
         </div>

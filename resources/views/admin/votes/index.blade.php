@@ -2,7 +2,7 @@
 
 @section('content')
 <div class="space-y-4">
-    <h1 class="text-2xl">Votes</h1>
+    <h1 class="text-4xl uppercase">Votes</h1>
     <p class="text-muted">{{ $event->name }} {{ $event->year }}. Online: {{ $counts['online'] }}. Manual: {{ $counts['manual'] }}. Total: {{ $counts['online'] + $counts['manual'] }}.</p>
     <p class="text-sm font-semibold">Votes are final and cannot be edited or removed.</p>
 

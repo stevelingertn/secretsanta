@@ -1,6 +1,6 @@
 {{-- One award line. Used by the results screen and the printout. --}}
 @php($big = $row['scope'] === 'overall')
-<div @class(['avoid-break rounded-xl border bg-white p-4', 'border-4 border-ink' => $big, 'border-line' => ! $big, 'border-2 border-warn bg-warn-soft' => in_array($row['status'], ['tie_pending', 'waiting'], true)])>
+<div @class(['avoid-break rounded-xl border bg-white', 'p-4' => ! in_array($row['status'], ['no_votes', 'no_eligible'], true), 'px-4 py-2 print:py-1' => in_array($row['status'], ['no_votes', 'no_eligible'], true), 'border-4 border-ink' => $big, 'border-line' => ! $big, 'border-2 border-warn bg-warn-soft' => in_array($row['status'], ['tie_pending', 'waiting'], true)])>
     <div class="flex flex-wrap items-start gap-4">
         @if ($row['entry_number'])
             <span @class(['plate', 'plate-lg' => $big])>{{ $row['entry_number'] }}</span>

@@ -14,7 +14,9 @@ use Illuminate\Support\Facades\DB;
  */
 class ResetTestEventCommand extends Command
 {
-    protected $signature = 'app:reset-test-event {event? : Event id (defaults to the active event)}';
+    protected $signature = 'app:reset-test-event
+        {event? : Event id (defaults to the active event)}
+        {--confirm= : The exact event name, to skip the prompt}';
 
     protected $description = 'Local only: clear all voting data from a test event and return it to setup';
 
@@ -35,7 +37,7 @@ class ResetTestEventCommand extends Command
 
         $votes = DB::table('votes')->where('event_id', $event->id)->count();
         $this->warn("This deletes {$votes} votes, all ballot submissions, tiebreaks, awards and audit rows for \"{$event->name}\" and returns it to setup.");
-        $typed = $this->ask('Type the event name exactly to confirm');
+        $typed = $this->option('confirm') ?? $this->ask('Type the event name exactly to confirm');
         if ($typed !== $event->name) {
             $this->info('Name did not match. Nothing changed.');
 

@@ -8,6 +8,7 @@ use App\Models\Category;
 use App\Models\Event;
 use App\Models\Vote;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Str;
 use LogicException;
 
 /**
@@ -129,6 +130,6 @@ class ResultsCalculator
         }
 
         return new AwardOutcome($scope, $title, $category, AwardOutcome::TIE_PENDING, null, $top, 0, $tied, $ranking,
-            explanation: count($tied).' cars are tied with '.$top.' votes each. An admin must run the tiebreaker.');
+            explanation: count($tied).' cars are tied with '.$top.' '.Str::plural('vote', $top).' each. An admin must run the tiebreaker.');
     }
 }

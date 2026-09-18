@@ -47,7 +47,6 @@
                         <p class="text-sm text-muted">Car #{{ $award->entry_number }} &middot; {{ $award->contestant_votes }} {{ Str::plural('vote', $award->contestant_votes) }}@if ($award->system_votes) &middot; won a tiebreaker @endif</p>
                     </div>
                 @else
-                    <span class="plate text-muted" aria-hidden="true">&ndash;</span>
                     <div>
                         <p class="font-display text-lg font-bold uppercase tracking-wide text-brand-blue">{{ $award->category_name }}</p>
                         <p class="text-muted">{{ $award->explanation }}</p>

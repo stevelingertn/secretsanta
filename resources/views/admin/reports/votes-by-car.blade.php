@@ -49,9 +49,9 @@
                         <td class="font-semibold">{{ $row['contestant_votes'] }}</td>
                         <td>
                             @forelse ($row['tiebreak_votes'] as $tb)
-                                <div>+{{ $tb['votes'] }} Tiebreaker (system) &mdash; {{ $tb['scope_label'] }}</div>
+                                <div>+{{ $tb['votes'] }} Tiebreaker (system), {{ $tb['scope_label'] }}</div>
                             @empty
-                                &mdash;
+                                <span class="text-muted">None</span>
                             @endforelse
                         </td>
                     </tr>

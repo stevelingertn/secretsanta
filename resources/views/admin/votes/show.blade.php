@@ -2,7 +2,7 @@
 
 @section('content')
 <div class="max-w-xl space-y-4">
-    <h1 class="text-2xl">Vote #{{ $vote->id }}</h1>
+    <h1 class="text-4xl uppercase">Vote #{{ $vote->id }}</h1>
     <p class="text-sm font-semibold">Votes are final and cannot be edited or removed.</p>
 
     <table class="table-plain">

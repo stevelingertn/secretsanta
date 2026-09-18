@@ -2,7 +2,7 @@
 
 @section('content')
 <div class="space-y-4">
-    <h1 class="text-2xl">Reports</h1>
+    <h1 class="text-4xl uppercase">Reports</h1>
     <p class="text-muted">{{ $event->name }} {{ $event->year }}. Admin only. No voter identities appear in any report.</p>
 
     <div class="grid gap-4 sm:grid-cols-2">

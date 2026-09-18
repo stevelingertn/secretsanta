@@ -63,6 +63,19 @@
     [x-cloak] {
         display: none !important;
     }
+
+    ::selection {
+        background: var(--color-brand-yellow);
+        color: var(--color-ink);
+    }
+
+    input[type='checkbox'], input[type='radio'] {
+        accent-color: var(--color-brand-red);
+    }
+
+    a {
+        text-underline-offset: 3px;
+    }
 }
 
 @layer components {

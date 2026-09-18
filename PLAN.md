@@ -1,4 +1,4 @@
-# Secret Santa Car Show: Implementation Plan
+﻿# Secret Santa Car Show: Implementation Plan
 
 Mobile-first Laravel app for car registration, a public gallery, contestant voting (online + paper), and award results.
 Local: `C:\laragon\www\secretsanta` served at `http://secretsanta.test`.
@@ -32,7 +32,7 @@ $PHP artisan ...        $PHP /c/laragon/bin/php/php-8.4.25-nts-Win32-vs17-x64/co
 2. **Users** are people. Admins (`is_admin`, username + password) and contestants (no email/password). Contact fields are private, nullable.
 3. **Participants** (`participants`): a user's participation in one event. Holds voter number, login code (encrypted + keyed hash), allowance override, session version. A person is one participant per event regardless of car count.
 4. **Voter number** = owner's lowest car entry number at the moment their first car is assigned. Stable after that. Not a secret.
-5. **Login code**: 10 chars from `ABCDEFGHJKMNPQRSTUVWXYZ23456789` (31 symbols, ~49.5 bits), shown as `XXXXX-XXXXX`. Stored as `Crypt::encryptString` (admin reprint) + HMAC-SHA256 lookup hash keyed from `APP_KEY`. Input normalized (uppercase, strip spaces/dashes). Throttled 10/min per IP + 30/hour per IP. Rotation bumps `session_version`, invalidating existing contestant sessions.
+5. **Login code**: 10 chars from `ABCDEFGHJKMNPQRSTUVWXYZ23456789` (31 symbols, ~49.5 bits), shown as `XXXXX-XXXXX`. Stored as `Crypt::encryptString` (admin reprint) + HMAC-SHA256 lookup hash keyed from `APP_KEY`. Input normalized (uppercase, strip spaces/dashes). Throttled 10/min per IP + 40/hour per IP. Rotation bumps `session_version`, invalidating existing contestant sessions.
 6. **Cars** belong to one event, one participant (owner), one category. `entry_number` unique per event; auto-number = max + 1, admin may type another unused number.
 7. **Allowance** = `allowance_override ?? votes_per_car (5) x cars owned`. Override nonnegative, never below votes used. Reset clears override.
 8. **Votes** (`votes`): contestant votes only. `UNIQUE(event_id, participant_id, car_id)`. Source `online` or `manual` (UI label exactly **Manually entered**). Manual votes record `entered_by`. Immutable: no update/delete paths; model throws on update/delete.
@@ -120,45 +120,45 @@ All foreign keys `ON DELETE RESTRICT`. No cascades on ballots, votes, tiebreaks,
 - [x] PLAN.md, AGENTS.md, CLAUDE.md, HANDOFF.md, .gitignore, git init
 Accept: `curl http://secretsanta.test` served by PHP 8.4, `reference/` not public.
 
-### Phase 1: Schema, models, domain services, tests [ ]
-- [ ] Migrations + models + factories (synthetic only)
-- [ ] LoginCodeService, AllowanceService, RegistrationService
-- [ ] VoteService with locking + idempotency
-- [ ] VotingLifecycleService, ResultsCalculator, TieBreakService, finalize snapshot
-- [ ] Feature/service tests on MySQL `secretsanta_testing`; concurrency test with parallel processes
+### Phase 1: Schema, models, domain services, tests [x]
+- [x] Migrations + models + factories (synthetic only)
+- [x] LoginCodeService, AllowanceService, RegistrationService
+- [x] VoteService with locking + idempotency
+- [x] VotingLifecycleService, ResultsCalculator, TieBreakService, finalize snapshot
+- [x] Feature/service tests on MySQL `secretsanta_testing`; concurrency test with parallel processes
 Accept: all domain tests green on MySQL.
 
-### Phase 2: Seed + import [ ]
-- [ ] `CategorySeeder` from `reference/carClasses.csv` (BOM-safe, idempotent, ids preserved)
-- [ ] `app:import-2025` from `Name Entry` (cached values, real rows only, null N/A, owner matching, exception report to `storage/app/private/imports/`)
-- [ ] `app:create-admin`
-- [ ] Import tests with a synthetic xlsx fixture
+### Phase 2: Seed + import [x]
+- [x] `CategorySeeder` from `reference/carClasses.csv` (BOM-safe, idempotent, ids preserved)
+- [x] `app:import-2025` from `Name Entry` (cached values, real rows only, null N/A, owner matching, exception report to `storage/app/private/imports/`)
+- [x] `app:create-admin`
+- [x] Import tests with a synthetic xlsx fixture
 Accept: re-running seed/import changes nothing; exception report lists issues.
 
-### Phase 3: Auth + public + contestant UI [ ]
-- [ ] Layout, design tokens, logo asset, checkered accents
-- [ ] Gallery (search, class filter, pagination, tallies, refresh time), car detail
-- [ ] Code login (throttled), admin login, logout, session version check
-- [ ] Ballot: select, review, confirm; history; closed state
+### Phase 3: Auth + public + contestant UI [x]
+- [x] Layout, design tokens, logo asset, checkered accents
+- [x] Gallery (search, class filter, pagination, tallies, refresh time), car detail
+- [x] Code login (throttled), admin login, logout, session version check
+- [x] Ballot: select, review, confirm; history; closed state
 Accept: phone-width pass on gallery, login, review/confirm.
 
-### Phase 4: Admin [ ]
-- [ ] Dashboard, event settings + lifecycle buttons (open, Voting Finished confirm)
-- [ ] Contestants (duplicate hints, contact, cars, allowance override/reset with reason, rotate code, printable ballot)
-- [ ] Cars (register/edit, auto-number, photo upload re-encoded), categories
-- [ ] Manual ballot entry (search/code, preview, confirm, idempotent)
-- [ ] Results: provisional/final, tie buttons, finalize
+### Phase 4: Admin [x]
+- [x] Dashboard, event settings + lifecycle buttons (open, Voting Finished confirm)
+- [x] Contestants (duplicate hints, contact, cars, allowance override/reset with reason, rotate code, printable ballot)
+- [x] Cars (register/edit, auto-number, photo upload re-encoded), categories
+- [x] Manual ballot entry (search/code, preview, confirm, idempotent)
+- [x] Results: provisional/final, tie buttons, finalize
 Accept: authorization tests pass; paper entry flow works in browser.
 
-### Phase 5: Reports [ ]
-- [ ] Votes by car, votes by category, entries by class, awards, reconciliation
-- [ ] Print CSS (US Letter, repeated headers), CSV export
+### Phase 5: Reports [x]
+- [x] Votes by car, votes by category, entries by class, awards, reconciliation
+- [x] Print CSS (US Letter, repeated headers), CSV export
 Accept: totals reconcile in tests.
 
-### Phase 6: Polish + docs [ ]
-- [ ] impeccable/ui-ux-pro-max review pass, copy cleanup
-- [ ] Browser check (phone + desktop) of gallery, login, vote confirm, paper entry, print
-- [ ] README.md, deployment.md, final HANDOFF.md
+### Phase 6: Polish + docs [x]
+- [x] impeccable/ui-ux-pro-max review pass, copy cleanup
+- [x] Browser check (phone + desktop) of gallery, login, vote confirm, paper entry, print
+- [x] README.md, deployment.md, final HANDOFF.md
 
 ## 6. Acceptance criteria (global)
 

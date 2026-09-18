@@ -5,7 +5,7 @@
 
     @forelse ($rows as $group)
         <div class="mb-6 avoid-break">
-            <h2 class="mb-2 text-lg">{{ $group['category']->name }} &mdash; {{ $group['total_votes'] }} contestant {{ Str::plural('vote', $group['total_votes']) }}</h2>
+            <h2 class="mb-2 text-lg">{{ $group['category']->name }}: {{ $group['total_votes'] }} contestant {{ Str::plural('vote', $group['total_votes']) }}</h2>
             <div class="overflow-x-auto">
                 <table class="table-plain">
                     <thead>
