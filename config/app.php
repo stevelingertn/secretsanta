@@ -67,6 +67,9 @@ return [
 
     'timezone' => 'UTC',
 
+    // Timestamps are stored in UTC; pages and printouts show this zone.
+    'display_timezone' => env('APP_DISPLAY_TIMEZONE', 'America/New_York'),
+
     /*
     |--------------------------------------------------------------------------
     | Application Locale Configuration

@@ -1,9 +1,205 @@
 @import 'tailwindcss';
+@import '@fontsource/barlow/latin-400.css';
+@import '@fontsource/barlow/latin-500.css';
+@import '@fontsource/barlow/latin-600.css';
+@import '@fontsource/barlow/latin-700.css';
+@import '@fontsource/barlow-condensed/latin-600.css';
+@import '@fontsource/barlow-condensed/latin-700.css';
+@import '@fontsource/barlow-condensed/latin-800.css';
 
 @source '../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php';
 @source '../../storage/framework/views/*.php';
 
+/*
+ * Brand tokens from the Secret Santa Car Show logo: ink lettering, red and blue cars,
+ * yellow oval. Yellow is an accent only and always carries ink text.
+ */
 @theme {
-    --font-sans: 'Instrument Sans', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji',
-        'Segoe UI Symbol', 'Noto Color Emoji';
+    --font-sans: 'Barlow', ui-sans-serif, system-ui, sans-serif;
+    --font-display: 'Barlow Condensed', 'Barlow', ui-sans-serif, system-ui, sans-serif;
+
+    --color-ink: #111111;
+    --color-ink-soft: #2b2b2b;
+    --color-muted: #595959;
+    --color-line: #d9d4c7;
+    --color-paper: #f7f4ec;
+    --color-card: #ffffff;
+
+    --color-brand-red: #c8102e;
+    --color-brand-red-dark: #9e0c24;
+    --color-brand-blue: #1d5fbf;
+    --color-brand-blue-dark: #174c99;
+    --color-brand-yellow: #f5c518;
+
+    --color-ok: #1e7b3a;
+    --color-ok-soft: #e4f3e8;
+    --color-warn: #8a5a00;
+    --color-warn-soft: #fff4d6;
+    --color-bad: #b3261e;
+    --color-bad-soft: #fde8e6;
+}
+
+@layer base {
+    html {
+        -webkit-text-size-adjust: 100%;
+    }
+
+    body {
+        @apply bg-paper font-sans text-ink antialiased;
+        font-size: 1.0625rem;
+        line-height: 1.5;
+    }
+
+    h1, h2, h3 {
+        @apply font-display font-bold tracking-tight;
+        line-height: 1.05;
+    }
+
+    :focus-visible {
+        outline: 3px solid var(--color-brand-blue);
+        outline-offset: 2px;
+    }
+
+    [x-cloak] {
+        display: none !important;
+    }
+}
+
+@layer components {
+    /* Thin checkered flag strip, used sparingly at page edges. */
+    .checker {
+        height: 10px;
+        background-color: #fff;
+        background-image: repeating-conic-gradient(var(--color-ink) 0 25%, #fff 0 50%);
+        background-size: 20px 20px;
+    }
+
+    .checker-thin {
+        height: 6px;
+        background-color: #fff;
+        background-image: repeating-conic-gradient(var(--color-ink) 0 25%, #fff 0 50%);
+        background-size: 12px 12px;
+    }
+
+    /* Race plate: how car numbers appear everywhere. */
+    .plate {
+        @apply inline-flex items-center justify-center rounded-full border-[3px] border-ink bg-white font-display font-extrabold text-ink tabular-nums;
+        min-width: 3.25rem;
+        height: 3.25rem;
+        padding: 0 0.6rem;
+        font-size: 1.75rem;
+        line-height: 1;
+    }
+
+    .plate-lg {
+        min-width: 5rem;
+        height: 5rem;
+        font-size: 2.75rem;
+        border-width: 4px;
+    }
+
+    .plate-sm {
+        min-width: 2.25rem;
+        height: 2.25rem;
+        font-size: 1.15rem;
+        border-width: 2px;
+        padding: 0 0.4rem;
+    }
+
+    .btn {
+        @apply inline-flex min-h-12 cursor-pointer items-center justify-center gap-2 rounded-lg px-5 font-display text-lg font-bold uppercase tracking-wide transition-colors duration-150 select-none disabled:cursor-not-allowed disabled:opacity-50;
+    }
+
+    .btn-primary {
+        @apply bg-brand-red text-white hover:bg-brand-red-dark;
+    }
+
+    .btn-secondary {
+        @apply bg-brand-blue text-white hover:bg-brand-blue-dark;
+    }
+
+    .btn-ghost {
+        @apply border-2 border-ink bg-white text-ink hover:bg-paper;
+    }
+
+    .btn-sm {
+        @apply min-h-10 px-3 text-base;
+    }
+
+    .field-label {
+        @apply mb-1 block font-semibold text-ink;
+    }
+
+    .field {
+        @apply block min-h-12 w-full rounded-lg border-2 border-ink/25 bg-white px-3 text-lg text-ink placeholder:text-muted/70 focus:border-brand-blue focus:outline-none;
+    }
+
+    textarea.field {
+        @apply py-2;
+    }
+
+    .field-error {
+        @apply mt-1 text-sm font-semibold text-bad;
+    }
+
+    .card {
+        @apply rounded-xl border border-line bg-card;
+    }
+
+    .badge {
+        @apply inline-flex items-center rounded-md px-2 py-0.5 text-sm font-semibold;
+    }
+
+    .table-plain {
+        @apply w-full border-collapse text-left;
+    }
+
+    .table-plain th {
+        @apply border-b-2 border-ink px-3 py-2 font-display text-base font-bold uppercase tracking-wide;
+    }
+
+    .table-plain td {
+        @apply border-b border-line px-3 py-2 align-top;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+        transition-duration: 0.01ms !important;
+        animation-duration: 0.01ms !important;
+    }
+}
+
+/* US Letter print styles for reports, ballots and results. */
+@media print {
+    @page {
+        size: letter;
+        margin: 0.5in;
+    }
+
+    body {
+        background: #fff;
+        font-size: 11pt;
+    }
+
+    .no-print {
+        display: none !important;
+    }
+
+    .print-break {
+        break-after: page;
+    }
+
+    thead {
+        display: table-header-group;
+    }
+
+    tr, .avoid-break {
+        break-inside: avoid;
+    }
+
+    .checker, .checker-thin, .plate {
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
+    }
 }

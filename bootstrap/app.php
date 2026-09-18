@@ -1,8 +1,12 @@
 <?php
 
+use App\Http\Middleware\EnsureAdmin;
+use App\Http\Middleware\EnsureContestant;
+use App\Http\Middleware\ShareActiveEvent;
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
 use Illuminate\Foundation\Configuration\Middleware;
+use Illuminate\Http\Exceptions\ThrottleRequestsException;
 use Illuminate\Http\Request;
 
 return Application::configure(basePath: dirname(__DIR__))
@@ -12,9 +16,25 @@ return Application::configure(basePath: dirname(__DIR__))
         health: '/up',
     )
     ->withMiddleware(function (Middleware $middleware): void {
-        //
+        $middleware->web(append: [ShareActiveEvent::class]);
+        $middleware->alias([
+            'admin' => EnsureAdmin::class,
+            'contestant' => EnsureContestant::class,
+        ]);
+        $middleware->redirectGuestsTo(fn (Request $request) => $request->is('admin', 'admin/*') ? route('admin.login') : route('login'));
+        $middleware->redirectUsersTo(fn (Request $request) => $request->user()?->isAdmin() ? route('admin.dashboard') : route('ballot.index'));
     })
     ->withExceptions(function (Exceptions $exceptions): void {
+        // Friendly message on sign-in forms instead of a bare 429 page.
+        $exceptions->render(function (ThrottleRequestsException $e, Request $request) {
+            $field = match (true) {
+                $request->routeIs('login.store') => 'code',
+                $request->routeIs('admin.login.store') => 'username',
+                default => null,
+            };
+
+            return $field ? back()->withErrors([$field => 'Too many tries. Wait a minute and try again.']) : null;
+        });
         $exceptions->shouldRenderJsonWhen(
             fn (Request $request) => $request->is('api/*') || $request->expectsJson(),
         );
