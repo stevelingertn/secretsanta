@@ -14,9 +14,17 @@ return new class extends Migration
         Schema::create('users', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->string('email')->unique();
-            $table->timestamp('email_verified_at')->nullable();
-            $table->string('password');
+            // Admin sign-in only. Contestants sign in with a login code and have no password.
+            $table->string('username')->nullable()->unique();
+            $table->string('password')->nullable();
+            $table->boolean('is_admin')->default(false);
+            // Optional private contact details. Never exposed publicly.
+            $table->string('email')->nullable()->index();
+            $table->string('phone', 40)->nullable();
+            $table->string('address')->nullable();
+            $table->string('city', 100)->nullable();
+            $table->string('state', 40)->nullable();
+            $table->string('zip', 20)->nullable();
             $table->rememberToken();
             $table->timestamps();
         });

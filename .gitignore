@@ -34,3 +34,4 @@ Thumbs.db
 *.xlsm
 !/tests/Fixtures/*.xlsx
 /docs/superpowers/
+/storage/logs/concurrency-*.json
